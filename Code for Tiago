@@ -13,7 +13,7 @@ for line in fhTiago:
     else:
         testDic[','.join(line.split(',')[1:])]=[line]
 
-
+#making a comment
 
 fhTiago.seek(0)
 allLines=[line for line in fhTiago]
