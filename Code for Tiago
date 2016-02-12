@@ -1,0 +1,49 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jan 29 14:01:26 2016
+
+@author: RM41881
+"""
+
+fhTiago=open('AA_outputMutationTable_2016.csv')
+testDic={}
+for line in fhTiago:
+    if ','.join(line.split(',')[1:]) in testDic:
+        testDic.get(','.join(line.split(',')[1:])).append(line)
+    else:
+        testDic[','.join(line.split(',')[1:])]=[line]
+
+
+
+fhTiago.seek(0)
+allLines=[line for line in fhTiago]
+
+print len(allLines)
+print len(testDic)
+
+#Create and open files
+with open("duplicate.txt", "w") as f, open("nonduplicates.txt", "w") as e, open ("secondarydup.txt", "w") as h: 
+    for k in testDic:
+        if len(testDic.get(k))>1:
+            print >> f, testDic.get(k) #prints out all duplicates
+            v = testDic.get(k)[1]#prints out the duplicates + sequence (missing out the first duplicate)
+            w = testDic.get(k)[2:]
+            x = testDic.get(k)[3:]
+            y = testDic.get(k)[4:]
+            z = testDic.get(k)[5:]
+            Seqname1 = ''.join(v)
+            Seqname2 = ''.join(w)
+            Seqname3 = ''.join(x)
+            Seqname4 = ''.join(y)
+            Seqname5 = ''.join(z)
+            print >> h, Seqname1[:6], Seqname2[:6], Seqname3[:6], Seqname4[:6], Seqname5[:6] #prints seq name to file
+
+        elif len(testDic.get(k))==1: 
+            print >> e, testDic.get(k) #prints out non duplicates (unique)
+
+
+with open("onedup.txt", "w") as g, open("duplicate.txt", "r") as f:
+    for k in f:
+        print >> g, k.lstrip("['").split(",")[0] #prints out one duplicate name to file 
+        
+    
